@@ -115,7 +115,7 @@ public class GameBoardPanel extends JPanel {
           */
           if (GameBoardPanel.this.isSolved()) {
             // Display a congratulatory message
-            SoundEffect.NEW_GAME.play();
+            SoundEffect.CONGRATS.play();
             SwingUtilities.invokeLater(new Runnable() {
                public void run() {
                   JOptionPane.showMessageDialog(GameBoardPanel.this, 
