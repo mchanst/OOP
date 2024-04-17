@@ -16,7 +16,8 @@ import javax.sound.sampled.*;
 public enum SoundEffect {
    NEW_GAME("./sudoku/Ring06.wav"),  // Assuming you put the files under `src/main/resources/sounds`
    WRONG_GUESS("./sudoku/Bling.wav"),
-   CORRECT_GUESS("./sudoku/tap.wav");
+   CORRECT_GUESS("./sudoku/tap.wav"),
+   CONGRATS("./sudoku/Congrats.wav");
    
    
    // Nested class for specifying volume
