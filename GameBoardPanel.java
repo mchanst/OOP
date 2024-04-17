@@ -115,10 +115,17 @@ public class GameBoardPanel extends JPanel {
           */
           if (GameBoardPanel.this.isSolved()) {
             // Display a congratulatory message
-            JOptionPane.showMessageDialog(GameBoardPanel.this, 
-                                          "Congratulations! You've solved the puzzle.", 
-                                          "Puzzle Solved", 
-                                          JOptionPane.INFORMATION_MESSAGE);
+            SoundEffect.NEW_GAME.play();
+            SwingUtilities.invokeLater(new Runnable() {
+               public void run() {
+                  JOptionPane.showMessageDialog(GameBoardPanel.this, 
+                  "Congratulations! You've solved the puzzle.", 
+                  "Puzzle Solved", 
+                  JOptionPane.INFORMATION_MESSAGE);
+               }
+           });
+            
+                                          
         }
       }
    }
