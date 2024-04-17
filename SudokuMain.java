@@ -25,8 +25,12 @@ public class SudokuMain extends JFrame {
    GameBoardPanel board = new GameBoardPanel(); // Assuming GameBoardPanel is a custom JPanel
    JButton btnNewGame = new JButton("New Game");
 
+  
+
    // Constructor
    public SudokuMain() {
+    
+
       Container cp = getContentPane();
       cp.setLayout(new BorderLayout());
 
@@ -37,16 +41,23 @@ public class SudokuMain extends JFrame {
       btnNewGame.addActionListener(new ActionListener() {
           public void actionPerformed(ActionEvent e) {
               board.newGame(); // Call the newGame() method of the board when the button is clicked
-          }
+              SoundEffect.NEW_GAME.play();
+            }
       });
 
       // Initialize the game board to start the game
       board.newGame();
+      // Assuming SoundEffect is correctly defined elsewhere
+      SoundEffect.NEW_GAME.play();
+    
 
       pack();     // Pack the UI components, instead of using setSize()
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // Handle window closing
       setTitle("Sudoku");
       setVisible(true);   // Make the frame visible
+
+    
+      
    }
 
    /**
