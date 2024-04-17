@@ -70,10 +70,15 @@ public enum SoundEffect {
    static void init() {
       values(); // calls the constructor for all the elements
    }
+   public void loop() {
+      if (this == CORRECT_GUESS && volume != Volume.MUTE) {
+          clip.loop(Clip.LOOP_CONTINUOUSLY);
+      }
+  }
    public static void main(String[] args) {
       try {
           SoundEffect.init(); // Initialize and load all sounds
-          SoundEffect.CORRECT_GUESS.play(); // Test playing a sound
+          SoundEffect.BGMUSIC.play(); // Test playing a sound
           Thread.sleep(5000); // Wait to allow sound to play
       } catch (Exception e) {
           e.printStackTrace();
