@@ -52,6 +52,7 @@ public class SudokuMain extends JFrame {
       // Assuming SoundEffect is correctly defined elsewhere
       SoundEffect.NEW_GAME.play();
       SoundEffect.BGMUSIC.play();
+      SoundEffect.BGMUSIC.loop();
     
 
       pack();     // Pack the UI components, instead of using setSize()
