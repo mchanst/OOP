@@ -42,6 +42,8 @@ public class SudokuMain extends JFrame {
           public void actionPerformed(ActionEvent e) {
               board.newGame(); // Call the newGame() method of the board when the button is clicked
               SoundEffect.NEW_GAME.play();
+              SoundEffect.BGMUSIC.play();
+
             }
       });
 
@@ -49,6 +51,7 @@ public class SudokuMain extends JFrame {
       board.newGame();
       // Assuming SoundEffect is correctly defined elsewhere
       SoundEffect.NEW_GAME.play();
+      SoundEffect.BGMUSIC.play();
     
 
       pack();     // Pack the UI components, instead of using setSize()
