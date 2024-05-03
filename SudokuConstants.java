@@ -1,4 +1,4 @@
-package sudoku;
+package sudokuV5;
 /**
  * Define the named constants used in many classes.
  */

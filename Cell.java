@@ -1,4 +1,4 @@
-package sudoku;
+package sudokuV5;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -11,13 +11,15 @@ public class Cell extends JTextField {
 
    // Define named constants for JTextField's colors and fonts
    //  to be chosen based on CellStatus
-   public static final Color BG_GIVEN = new Color(240, 240, 240); // RGB
-   public static final Color FG_GIVEN = Color.BLACK;
-   public static final Color FG_NOT_GIVEN = Color.GRAY;
-   public static final Color BG_TO_GUESS  = Color.YELLOW;
-   public static final Color BG_CORRECT_GUESS = new Color(0, 216, 0);
-   public static final Color BG_WRONG_GUESS   = new Color(216, 0, 0);
-   public static final Font FONT_NUMBERS = new Font("OCR A Extended", Font.PLAIN, 28);
+   public static final Color BG_GIVEN = new Color(52, 40, 102); // RGB
+   public static final Color FG_GIVEN = Color.PINK;
+   public static final Color FG_NOT_GIVEN = Color.PINK;
+   public static final Color BG_TO_GUESS  = new Color(0, 153, 153);
+   public static final Color BG_CORRECT_GUESS = new Color(44, 152, 105);
+   public static final Color BG_WRONG_GUESS   = new Color(149, 50, 50);
+   public static final Color BG_CONFLICTING_GUESS   = new Color(204, 102, 0);
+   public static final Font FONT_NUMBERS = new Font("ROckwell", Font.PLAIN, 28);
+    
 
    // Define properties (package-visible)
    /** The row and column number [0-8] of this cell */
@@ -26,7 +28,15 @@ public class Cell extends JTextField {
    int number;
    /** The status of this cell defined in enum CellStatus */
    CellStatus status;
-
+   
+   // Store the previous status of conflicting cells & to be accessed in GameBoardPanel
+   final CellStatus[][] prevStatus = new CellStatus[SudokuConstants.GRID_SIZE][SudokuConstants.GRID_SIZE];
+   public CellStatus[][] getPrevStatus() {
+       return this.prevStatus;
+   }
+   
+   
+   
    /** Constructor */
    public Cell(int row, int col) {
       super();   // JTextField
@@ -41,9 +51,15 @@ public class Cell extends JTextField {
    public void newGame(int number, boolean isGiven) {
       this.number = number;
       status = isGiven ? CellStatus.GIVEN : CellStatus.TO_GUESS;
+      for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+          for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+        		 prevStatus[row][col] = status;
+          }
+       }
       paint();    // paint itself
+      
    }
-
+   
    /** This Cell (JTextField) paints itself based on its status */
    public void paint() {
       if (status == CellStatus.GIVEN) {
@@ -60,8 +76,14 @@ public class Cell extends JTextField {
          super.setForeground(FG_NOT_GIVEN);
       } else if (status == CellStatus.CORRECT_GUESS) {  // from TO_GUESS
          super.setBackground(BG_CORRECT_GUESS);
+         super.setEditable(false);
+         
       } else if (status == CellStatus.WRONG_GUESS) {    // from TO_GUESS
          super.setBackground(BG_WRONG_GUESS);
-      }
+         super.setEditable(true);
+         
+      } else if (status == CellStatus.CONFLICTING) {    // from TO_GUESS
+    	 super.setBackground(BG_CONFLICTING_GUESS);
+      } 
    }
 }

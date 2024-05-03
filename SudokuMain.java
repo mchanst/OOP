@@ -1,19 +1,17 @@
-package sudoku;
+package sudokuV5;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 // Add any other imports you need below this line
-
 import javax.swing.SwingUtilities;
-
-
 
 /**
  * The main Sudoku program.
@@ -24,7 +22,24 @@ public class SudokuMain extends JFrame {
    // Private variables
    GameBoardPanel board = new GameBoardPanel(); // Assuming GameBoardPanel is a custom JPanel
    JButton btnNewGame = new JButton("New Game");
-
+   JButton btnNewGameEasy = new JButton("Easy Mode");
+   JButton btnNewGameNormal = new JButton("Normal Mode");
+   JButton btnNewGameHard = new JButton("Hard Mode");
+   
+   private Cell[][] cells = new Cell[SudokuConstants.GRID_SIZE][SudokuConstants.GRID_SIZE];
+   private Puzzle puzzle = new Puzzle();
+   
+   //to reference later for randomise of blanks
+   public String diffLevel = "Easy";
+   
+   public String getDiffLevel() {
+	    return diffLevel;
+   }
+   
+   public void setDiffLevel(String level) {
+	    this.diffLevel = level;
+   }
+   
    // Constructor
    public SudokuMain() {
       Container cp = getContentPane();
@@ -34,56 +49,67 @@ public class SudokuMain extends JFrame {
 
       // Add a button to the south to re-start the game via board.newGame()
       cp.add(btnNewGame, BorderLayout.SOUTH);
+      
+      cp.add(btnNewGameEasy, BorderLayout.NORTH);
+	  cp.add(btnNewGameNormal, BorderLayout.EAST);
+	  cp.add(btnNewGameHard, BorderLayout.WEST);
+	  
       btnNewGame.addActionListener(new ActionListener() {
           public void actionPerformed(ActionEvent e) {
-              board.newGame(); // Call the newGame() method of the board when the button is clicked
+        	  board.newGame(diffLevel);
+        	  SoundEffect.NEW_GAME.play();
+        	  SoundEffect.BGMUSIC.play();
+        	  
           }
       });
-
-      // Initialize the game board to start the game
-      board.newGame();
-
+      
+      btnNewGameEasy.addActionListener(new ActionListener() {
+		  public void actionPerformed(ActionEvent e) {
+    		  diffLevel = "Easy";
+    		  board.newGame(diffLevel);
+    		  SoundEffect.NEW_GAME.play();
+    		  SoundEffect.BGMUSIC.play();
+		  };
+	  });
+	  
+	  btnNewGameNormal.addActionListener(new ActionListener() {
+		  public void actionPerformed(ActionEvent e) {
+    		  diffLevel = "Normal";
+    		  board.newGame(diffLevel);
+    		  SoundEffect.NEW_GAME.play();
+    		  SoundEffect.BGMUSIC.play();
+		  }
+	  });
+	  
+	  btnNewGameHard.addActionListener(new ActionListener() {
+		  public void actionPerformed(ActionEvent e) {
+    		  diffLevel = "Hard";
+    		  board.newGame(diffLevel);
+    		  SoundEffect.NEW_GAME.play();
+    		  SoundEffect.BGMUSIC.play();
+		  };
+	  });
+	  board.newGame(diffLevel);
+	  SoundEffect.NEW_GAME.play();
+	  SoundEffect.BGMUSIC.play();
+	  SoundEffect.BGMUSIC.loop();
+	  
+	  ImageIcon game= new ImageIcon("./sudoku/Sudoku.png");  
+	  SwingUtilities.invokeLater(new Runnable() {
+		  public void run() {
+			  JOptionPane.showMessageDialog(SudokuMain.this,
+              "ARE YOU READY FOR THIS", 
+              "SUDOKU", 
+              JOptionPane.INFORMATION_MESSAGE,
+              game
+              );
+     	 }
+      });
       pack();     // Pack the UI components, instead of using setSize()
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // Handle window closing
       setTitle("Sudoku");
       setVisible(true);   // Make the frame visible
    }
-
-   /**
-    * SwingTemplate class - a simple Swing application example.
-    */
-    public static class SwingTemplate extends JFrame {
-        // Name-constants to define the various dimensions
-        public static final int WINDOW_WIDTH = 300;
-        public static final int WINDOW_HEIGHT = 150;
-
-        // Private variables of UI components
-        private JButton btnExample = new JButton("Click Me!");
-
-        /** Constructor to setup the UI components */
-        public SwingTemplate() {
-            Container cp = this.getContentPane();
-            cp.setLayout(new FlowLayout()); // Set the container's layout
-            
-            // Allocate the UI components
-            btnExample.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    JOptionPane.showMessageDialog(SwingTemplate.this,
-                                                  "Button Clicked!",
-                                                  "Example",
-                                                  JOptionPane.INFORMATION_MESSAGE);
-                }
-            });
-
-            // Content-pane adds components
-            cp.add(btnExample);
-
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit when close button clicked
-            setTitle("Swing Template Example"); // "this" JFrame sets title
-            setSize(WINDOW_WIDTH, WINDOW_HEIGHT); // or pack() the components
-            setVisible(true); // show it
-        }
-    }
 
     /** The entry main() method */
     public static void main(String[] args) {
